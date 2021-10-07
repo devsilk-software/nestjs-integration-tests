@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+  int-postgres:
+    container_name: int-postgres
+    image: postgres
+    ports:
+      - 5432:5432
+    env_file:
+      - .int.env
