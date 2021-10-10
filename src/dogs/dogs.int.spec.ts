@@ -2,10 +2,7 @@ import { HttpStatus } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Connection } from 'typeorm';
 import { clearAllTables } from '../../test/utils/clear-all-tables.util';
-import {
-  compileTestModule,
-  initTestApp,
-} from '../../test/utils/create-test-app.util';
+import { createTestApp } from '../../test/utils/create-test-app.util';
 import { makeRequest } from '../../test/utils/make-request.util';
 import { DogPostgresEntity } from './database/dog.entity';
 import { DogsModule } from './dogs.module';
@@ -16,10 +13,10 @@ describe('Dogs module', () => {
   let connection: Connection;
 
   beforeAll(async () => {
-    const moduleFixture = await compileTestModule([DogsModule]);
+    const testApp = await createTestApp([DogsModule]);
 
-    connection = moduleFixture.get<Connection>(Connection);
-    app = await initTestApp(moduleFixture);
+    connection = testApp.connection;
+    app = testApp.app;
   });
 
   afterEach(async () => {
